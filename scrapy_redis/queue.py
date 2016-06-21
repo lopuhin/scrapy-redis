@@ -1,3 +1,4 @@
+from base64 import b64encode, b64decode
 from scrapy.utils.reqser import request_to_dict, request_from_dict
 
 try:
@@ -23,11 +24,14 @@ class Base(object):
 
     def _encode_request(self, request):
         """Encode a request object"""
-        return pickle.dumps(request_to_dict(request, self.spider), protocol=-1)
+        return b64encode(
+            pickle.dumps(request_to_dict(request, self.spider), protocol=-1))\
+            .decode('ascii')
 
     def _decode_request(self, encoded_request):
         """Decode an request previously encoded"""
-        return request_from_dict(pickle.loads(encoded_request), self.spider)
+        return request_from_dict(
+            pickle.loads(b64decode(encoded_request)), self.spider)
 
     def __len__(self):
         """Return the length of the queue"""
