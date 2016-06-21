@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 import json
 import redis
 
@@ -11,9 +12,9 @@ def main():
         source, data = r.blpop(["dmoz:items"])
         item = json.loads(data)
         try:
-            print u"Processing: %(name)s <%(link)s>" % item
+            print(u"Processing: %(name)s <%(link)s>" % item)
         except KeyError:
-            print u"Error procesing: %r" % item
+            print(u"Error procesing: %r" % item)
 
 
 if __name__ == '__main__':
